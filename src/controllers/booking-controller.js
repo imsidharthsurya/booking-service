@@ -28,8 +28,16 @@ const create=async(req,res)=>{
 const sendMessageToQueue=async(req,res)=>{
     try{
         const channel=await createChannel();
-        const data={message:"first message to the queue"}
-        await publishMessage(channel,REMINDER_BINDING_KEY,JSON.stringify(data));
+        const payload={
+            data:{
+                subject:"This is mail from queue",
+                content:"this mail is coming from the queue",
+                recepientEmail:"imahasid@gmail.com",
+                notificationTime:"2024-07-01T23:07:09.466Z"
+            },
+            service:"CREATE_TICKET"
+        };
+        publishMessage(channel,REMINDER_BINDING_KEY,JSON.stringify(payload));
         return res.status(200).json({
             message:"successfully published the message"
         })
